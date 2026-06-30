@@ -6,7 +6,7 @@
 /storage/*.key
 /storage/app/private/
 /storage/pail
-/vendor
+#/vendor
 .env
 .env.backup
 .env.production
