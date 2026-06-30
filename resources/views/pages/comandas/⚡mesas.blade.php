@@ -150,6 +150,7 @@ new #[Title('Mesas · Comandas'), Lazy] class extends Component
 
 <div class="max-w-5xl mx-auto space-y-4"
     @if($tiendaId)
+    wire:poll.3s
     x-data
     x-init="echoWhen(e => e.channel('comandas.{{ $tiendaId }}').listen('.MesaActualizada', () => window.dispatchEvent(new CustomEvent('mesa-actualizada'))))"
     @mesa-actualizada.window="$wire.$refresh()"
