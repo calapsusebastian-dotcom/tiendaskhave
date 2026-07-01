@@ -85,9 +85,6 @@ Route::prefix('comandas')
         Route::livewire('/historial', 'pages::comandas.historial')
             ->middleware('role:admin|comandas|comandas.historial')
             ->name('historial');
-        Route::livewire('/impresora', 'pages::comandas.impresora')
-            ->middleware('role:admin|comandas|comandas.mesas')
-            ->name('impresora');
         Route::get('/{comanda}/imprimir', function (\App\Models\Comanda $comanda) {
             $comanda->load(['mesa.tienda', 'tienda', 'items.productoMenu', 'mesero']);
             return view('pages.comandas.imprimir', compact('comanda'));
@@ -110,13 +107,5 @@ Route::prefix('traslados')
             ->name('ver');
     });
 
-// Firma de solicitudes QZ Tray — solo usuarios autenticados
-Route::get('/qz-sign', function (\Illuminate\Http\Request $request) {
-    $req        = $request->input('request', '');
-    $keyPath    = storage_path('app/private/qz-private-key.pem');
-    $privateKey = openssl_get_privatekey(file_get_contents($keyPath));
-    openssl_sign($req, $signature, $privateKey, 'sha512');
-    return response(base64_encode($signature))->header('Content-Type', 'text/plain');
-})->middleware('auth')->name('qz.sign');
 
 require __DIR__.'/settings.php';

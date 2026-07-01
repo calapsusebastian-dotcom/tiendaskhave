@@ -3,317 +3,163 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Comanda {{ $comanda->folio }}</title>
+    <title>{{ $comanda->folio }}</title>
     <style>
+        @page {
+            size: 80mm auto;
+            margin: 0;
+        }
+
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: 'Segoe UI', Arial, sans-serif;
+            font-family: 'Courier New', Courier, monospace;
             font-size: 12px;
-            color: #1a1a1a;
+            color: #000;
             background: #fff;
-            padding: 32px;
+            width: 80mm;
+            padding: 6mm 4mm 8mm;
         }
 
-        .header {
+        .center  { text-align: center; }
+        .right   { text-align: right; }
+        .bold    { font-weight: bold; }
+        .small   { font-size: 10px; }
+        .large   { font-size: 16px; }
+        .xlarge  { font-size: 20px; }
+
+        .sep-solid  { border-top: 1px solid #000; margin: 4px 0; }
+        .sep-dashed { border-top: 1px dashed #000; margin: 4px 0; }
+
+        .row {
             display: flex;
             justify-content: space-between;
-            align-items: flex-start;
-            border-bottom: 2px solid #E8642E;
-            padding-bottom: 16px;
-            margin-bottom: 24px;
+            align-items: baseline;
+            gap: 4px;
         }
 
-        .logo img { height: 48px; }
-
-        .folio-block { text-align: right; }
-        .folio-block .label { font-size: 11px; color: #6b7280; margin-bottom: 2px; letter-spacing: 0.06em; text-transform: uppercase; }
-        .folio-block .folio { font-size: 22px; font-weight: 700; color: #E8642E; font-family: monospace; }
-        .folio-block .fecha { font-size: 11px; color: #666; margin-top: 4px; }
-
-        .badge {
-            display: inline-block;
-            padding: 3px 10px;
-            border-radius: 20px;
-            font-size: 10px;
-            font-weight: 600;
-            margin-top: 6px;
-        }
-        .badge-green  { background: #d1fae5; color: #065f46; }
-        .badge-amber  { background: #fef3c7; color: #92400e; }
-        .badge-red    { background: #fee2e2; color: #991b1b; }
-
-        .info-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 12px;
-            margin-bottom: 24px;
+        .row .nombre {
+            flex: 1;
+            word-break: break-word;
         }
 
-        .info-card {
-            border: 1px solid #e5e7eb;
-            border-radius: 8px;
-            padding: 12px 14px;
-        }
-
-        .info-card .label {
-            font-size: 10px;
-            color: #9ca3af;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            margin-bottom: 4px;
-        }
-
-        .info-card .value {
-            font-size: 14px;
-            font-weight: 700;
-            color: #111;
-        }
-
-        .info-card .sub {
-            font-size: 11px;
-            color: #6b7280;
-            margin-top: 2px;
-        }
-
-        .section-title {
-            font-size: 10px;
-            font-weight: 600;
-            color: #6b7280;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            margin-bottom: 8px;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 0;
-        }
-
-        thead tr {
-            background: #f9fafb;
-            border-bottom: 1px solid #e5e7eb;
-        }
-
-        thead th {
-            padding: 8px 12px;
-            text-align: left;
-            font-size: 10px;
-            font-weight: 600;
-            color: #6b7280;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-
-        thead th.right { text-align: right; }
-
-        tbody tr { border-bottom: 1px solid #f3f4f6; }
-        tbody tr:last-child { border-bottom: none; }
-
-        tbody td {
-            padding: 9px 12px;
-            font-size: 12px;
-            color: #374151;
-            vertical-align: top;
+        .row .precio {
+            white-space: nowrap;
+            font-weight: bold;
         }
 
         .obs {
             font-size: 10px;
-            color: #9ca3af;
-            margin-top: 2px;
-            font-style: italic;
+            padding-left: 8px;
+            color: #444;
         }
-
-        .td-right { text-align: right; }
-        .td-center { text-align: center; }
-        .td-bold { font-weight: 600; color: #111; }
 
         .total-row {
-            border-top: 2px solid #e5e7eb;
-            margin-top: 0;
-        }
-
-        .total-row td {
-            padding: 12px 12px;
+            display: flex;
+            justify-content: space-between;
             font-size: 15px;
-            font-weight: 700;
-        }
-
-        .total-row .total-label { color: #374151; }
-        .total-row .total-value { text-align: right; color: #E8642E; }
-
-        .notas-box {
-            border: 1px solid #e5e7eb;
-            border-radius: 8px;
-            padding: 10px 14px;
-            margin-top: 20px;
-            color: #374151;
-            font-size: 11px;
-        }
-
-        .footer {
-            border-top: 1px solid #e5e7eb;
-            padding-top: 16px;
-            margin-top: 40px;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 40px;
-        }
-
-        .firma-line {
-            border-top: 1px solid #374151;
-            padding-top: 6px;
-            font-size: 10px;
-            color: #6b7280;
-            text-align: center;
-            margin-top: 48px;
+            font-weight: bold;
+            margin: 4px 0;
         }
 
         .print-btn {
             position: fixed;
-            bottom: 24px;
-            right: 24px;
+            bottom: 20px;
+            right: 20px;
             background: #E8642E;
             color: white;
             border: none;
-            padding: 10px 22px;
+            padding: 10px 20px;
             border-radius: 8px;
-            font-size: 13px;
-            font-weight: 600;
+            font-size: 14px;
+            font-weight: bold;
             cursor: pointer;
-            box-shadow: 0 4px 12px rgba(232,100,46,0.4);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            font-family: sans-serif;
         }
 
         @media print {
             .print-btn { display: none; }
-            body { padding: 16px; }
+            body { width: 80mm; }
         }
     </style>
 </head>
 <body>
 
-    {{-- Header --}}
-    <div class="header">
-        <div class="logo">
-            <img src="{{ asset('images/Logo Tiendas 2024.png') }}" alt="Tiendas Kahvé">
-        </div>
-        <div class="folio-block">
-            <div class="label">Comanda</div>
-            <div class="folio">{{ $comanda->folio }}</div>
-            <div class="fecha">{{ $comanda->created_at->format('d/m/Y H:i') }}</div>
-            @php
-                [$bc, $bl] = match($comanda->estado) {
-                    'abierta'   => ['green', 'Abierta'],
-                    'en_cuenta' => ['amber', 'En cuenta'],
-                    'cerrada'   => ['red',   'Cerrada'],
-                    default     => ['amber', $comanda->estado],
-                };
-            @endphp
-            <span class="badge badge-{{ $bc }}">{{ $bl }}</span>
-        </div>
+    {{-- Encabezado --}}
+    <div class="center">
+        <div class="xlarge bold">{{ $comanda->tienda->nombre }}</div>
+        @if($comanda->tienda->direccion)
+            <div class="small">{{ $comanda->tienda->direccion }}</div>
+        @endif
     </div>
 
-    {{-- Info: Mesa / Tienda / Mesero --}}
-    <div class="info-grid">
-        <div class="info-card">
-            <div class="label">Mesa</div>
-            <div class="value">Mesa {{ $comanda->mesa->numero }}</div>
-            @if($comanda->mesa->nombre)
-                <div class="sub">{{ $comanda->mesa->nombre }}</div>
-            @endif
-        </div>
-        <div class="info-card">
-            <div class="label">Tienda</div>
-            <div class="value">{{ $comanda->tienda->nombre }}</div>
-            <div class="sub">{{ $comanda->tienda->direccion }}</div>
-        </div>
-        <div class="info-card">
-            <div class="label">Atendido por</div>
-            <div class="value">{{ $comanda->mesero?->name ?? '—' }}</div>
-            <div class="sub">{{ $comanda->created_at->diffForHumans() }}</div>
-        </div>
+    <div class="sep-dashed"></div>
+
+    <div class="center">
+        <div class="bold">*** COMANDA ***</div>
+        <div class="large bold">{{ $comanda->folio }}</div>
+        <div class="small">{{ $comanda->created_at->format('d/m/Y H:i') }}</div>
     </div>
+
+    <div class="sep-dashed"></div>
+
+    {{-- Mesa y mesero --}}
+    <div>Mesa: <span class="bold">{{ $comanda->mesa->nombre ?: 'Mesa '.$comanda->mesa->numero }}</span></div>
+    <div>Mesero: <span class="bold">{{ $comanda->mesero?->name ?? '—' }}</span></div>
+
+    <div class="sep-solid"></div>
+
+    {{-- Items --}}
+    @php $total = 0; @endphp
+    @foreach($comanda->items as $item)
+        @php
+            $sub   = $item->subtotal();
+            $total += $sub;
+            $precio = '$' . number_format($sub, 0, '.', '.');
+        @endphp
+        <div class="row">
+            <div class="nombre">
+                <span class="bold">{{ $item->cantidad }}x</span> {{ $item->productoMenu?->nombre ?? '(eliminado)' }}
+            </div>
+            <div class="precio">{{ $precio }}</div>
+        </div>
+        @if($item->observacion)
+            <div class="obs">&gt; {{ $item->observacion }}</div>
+        @endif
+    @endforeach
+
+    <div class="sep-dashed"></div>
+
+    <div class="total-row">
+        <span>TOTAL</span>
+        <span>${{ number_format($total, 0, '.', '.') }}</span>
+    </div>
+
+    <div class="sep-solid"></div>
 
     {{-- Cliente --}}
     @if($comanda->cliente_nombre)
-    <div class="section-title">Datos del cliente</div>
-    <div class="info-grid" style="margin-bottom:24px;">
-        <div class="info-card">
-            <div class="label">Nombre</div>
-            <div class="value" style="font-size:13px;">{{ $comanda->cliente_nombre }}</div>
-        </div>
-        <div class="info-card">
-            <div class="label">Cédula / CC</div>
-            <div class="value" style="font-size:13px;">{{ $comanda->cliente_cc ?? '—' }}</div>
-        </div>
-        <div class="info-card">
-            <div class="label">Teléfono</div>
-            <div class="value" style="font-size:13px;">{{ $comanda->cliente_telefono ?? '—' }}</div>
-            @if($comanda->cliente_correo)
-                <div class="sub">{{ $comanda->cliente_correo }}</div>
+        <div class="small">
+            <div>Cliente: <span class="bold">{{ $comanda->cliente_nombre }}</span></div>
+            @if($comanda->cliente_cc)
+                <div>CC: {{ $comanda->cliente_cc }}</div>
+            @endif
+            @if($comanda->cliente_telefono)
+                <div>Tel: {{ $comanda->cliente_telefono }}</div>
             @endif
         </div>
-    </div>
+        <div class="sep-dashed"></div>
     @endif
 
-    {{-- Productos --}}
-    <div class="section-title">Productos</div>
-    <table>
-        <thead>
-            <tr>
-                <th style="width:36px">#</th>
-                <th>Producto</th>
-                <th class="right" style="width:60px">Cant.</th>
-                <th class="right" style="width:90px">Precio unit.</th>
-                <th class="right" style="width:90px">Subtotal</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach($comanda->items as $i => $item)
-                <tr>
-                    <td style="color:#9ca3af">{{ $i + 1 }}</td>
-                    <td>
-                        @if($item->productoMenu->codigo)
-                            <span style="font-family:monospace;font-size:10px;color:#9ca3af;background:#f3f4f6;padding:1px 5px;border-radius:4px;margin-right:5px;">{{ $item->productoMenu->codigo }}</span>
-                        @endif
-                        {{ $item->productoMenu->nombre }}
-                        @if($item->observacion)
-                            <div class="obs">{{ $item->observacion }}</div>
-                        @endif
-                    </td>
-                    <td class="td-center td-bold">{{ $item->cantidad }}</td>
-                    <td class="td-right">${{ number_format($item->precio_unitario, 0, '.', ',') }}</td>
-                    <td class="td-right td-bold">${{ number_format($item->subtotal(), 0, '.', ',') }}</td>
-                </tr>
-            @endforeach
-        </tbody>
-    </table>
-
-    {{-- Total --}}
-    <table class="total-row">
-        <tr>
-            <td class="total-label">Total</td>
-            <td class="total-value">${{ number_format($comanda->items->sum(fn($i) => $i->subtotal()), 0, '.', ',') }}</td>
-        </tr>
-    </table>
-
-    {{-- Notas --}}
-    @if($comanda->notas)
-        <div class="section-title" style="margin-top:20px">Notas</div>
-        <div class="notas-box">{{ $comanda->notas }}</div>
-    @endif
-
-    {{-- Firmas --}}
-    <div class="footer">
-        <div><div class="firma-line">Mesero / Cajero</div></div>
-        <div><div class="firma-line">Firma cliente</div></div>
+    {{-- Pie --}}
+    <div class="center small">
+        <div class="bold">¡Gracias por su visita!</div>
+        <div>Vuelva pronto</div>
     </div>
 
-    <button class="print-btn" onclick="window.print()">Imprimir</button>
+    <button class="print-btn" onclick="window.print()">🖨 Imprimir</button>
 
-    <script>
-        window.onload = () => window.print();
-    </script>
+    <script>window.onload = () => window.print();</script>
 </body>
 </html>

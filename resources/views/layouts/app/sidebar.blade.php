@@ -76,11 +76,6 @@
                     </flux:sidebar.item>
                     @endif
 
-                    @if($user->hasAnyRole(['admin','comandas','comandas.mesas']))
-                    <flux:sidebar.item icon="printer" :href="route('comandas.impresora')" :current="request()->routeIs('comandas.impresora')" wire:navigate>
-                        Impresora
-                    </flux:sidebar.item>
-                    @endif
                 </flux:sidebar.group>
                 @endif
 

@@ -1,7 +1,6 @@
 <?php
 
 use App\Events\ComandaActualizada;
-use App\Events\ComandaImprimible;
 use App\Events\MesaActualizada;
 use App\Models\Comanda;
 use App\Models\ComandaItem;
@@ -135,7 +134,6 @@ new #[Title('Tomar pedido · Comandas')] class extends Component
         $this->cantidades    = $cantidades;
         $this->observaciones = $observaciones;
         $comanda = $this->sincronizarComanda('abierta', $cantidades, $observaciones, $cliente);
-        try { broadcast(new ComandaImprimible($comanda)); } catch (\Throwable $e) {}
         Flux::toast(variant: 'success', text: "Comanda guardada · {$comanda->folio}");
         $this->redirect(route('comandas.mesas'), navigate: true);
     }
