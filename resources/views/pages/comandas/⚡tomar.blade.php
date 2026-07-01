@@ -134,8 +134,7 @@ new #[Title('Tomar pedido · Comandas')] class extends Component
         $this->cantidades    = $cantidades;
         $this->observaciones = $observaciones;
         $comanda = $this->sincronizarComanda('abierta', $cantidades, $observaciones, $cliente);
-        Flux::toast(variant: 'success', text: "Comanda guardada · {$comanda->folio}");
-        $this->redirect(route('comandas.mesas'), navigate: true);
+        $this->redirect(route('comandas.imprimir', $comanda));
     }
 
     public function pedirCuenta(array $cantidades, array $observaciones, array $cliente): string

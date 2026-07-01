@@ -78,6 +78,22 @@
             font-family: sans-serif;
         }
 
+        .back-btn {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: #fff;
+            color: #374151;
+            border: 1px solid #d1d5db;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            font-family: sans-serif;
+        }
+
         @media print {
             .print-btn { display: none; }
             body { width: 80mm; }
@@ -158,7 +174,8 @@
         <div>Vuelva pronto</div>
     </div>
 
-    <button class="print-btn" onclick="window.print()">🖨 Imprimir</button>
+    <a href="{{ route('comandas.mesas') }}" class="back-btn">← Mesas</a>
+    <button class="print-btn" onclick="window.print()">Imprimir</button>
 
     <script>window.onload = () => window.print();</script>
 </body>
