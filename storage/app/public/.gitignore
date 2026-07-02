@@ -1,2 +1,5 @@
 *
 !.gitignore
+!facturas/
+facturas/*
+!facturas/.gitkeep
