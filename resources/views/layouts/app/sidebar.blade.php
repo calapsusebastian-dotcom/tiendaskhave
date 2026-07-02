@@ -166,6 +166,5 @@
         @endpersist
 
         @fluxScripts
-        <script src="{{ asset('js/qz-tray.js') }}" data-navigate-once></script>
     </body>
 </html>

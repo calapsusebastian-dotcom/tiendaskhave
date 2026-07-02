@@ -55,7 +55,7 @@
             />
 
             <!-- Password -->
-            <div class="relative">
+            <div>
                 <flux:input
                     name="password"
                     :label="__('Password')"
@@ -65,12 +65,6 @@
                     :placeholder="__('Password')"
                     viewable
                 />
-
-                @if (Route::has('password.request'))
-                    <flux:link class="absolute top-0 text-sm end-0" :href="route('password.request')" wire:navigate>
-                        {{ __('Forgot your password?') }}
-                    </flux:link>
-                @endif
             </div>
 
             <!-- Remember Me -->
@@ -85,15 +79,5 @@
             </div>
         </form>
 
-        <div class="space-x-1 text-sm text-center rtl:space-x-reverse text-zinc-600 dark:text-zinc-400">
-            <span>{{ __('Don\'t have an account?') }}</span>
-            <flux:link
-                :href="$teamInvitation ? route('register', ['invitation' => $teamInvitation['code']]) : route('register')"
-                data-test="register-link"
-                wire:navigate
-            >
-                {{ __('Sign up') }}
-            </flux:link>
-        </div>
     </div>
 </x-layouts::auth>
